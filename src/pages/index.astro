@@ -1,11 +1,64 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
+import Popup from "../components/Popup.astro";
 ---
 
 <Layout>
-	<Welcome />
+  <div class="mx-32">
+	<h1 class="text-3xl justify-self-center m-8 py-32">Whimsy</h1>
+	<button id="popup-button-1" class="justify-center">Popup 1</button>
+  </div>
+
+  <Popup id="popup-1" title="faq">
+	<p> answer questions ok</p>
+  </Popup>
+  <script>
+	const popupButton1 = document.getElementById("popup-button-1");
+	const popup1 = document.getElementById("popup-1");
+
+
+	popupButton1?.addEventListener("click", () =>{
+		popup1?.classList.toggle("hidden");
+	});
+
+	function makeDraggable(popup: HTMLElement){
+		const handle = popup.querySelector<HTMLElement>(".popup-handle");
+		let isDragging = false;
+		let offsetX = 0;
+		let offsetY = 0;
+
+		handle?.addEventListener("mousedown", (e: MouseEvent) =>{
+			isDragging = true
+			const rect = popup.getBoundingClientRect();
+			offsetX = e.clientX - rect.left;
+			offsetY = e.clientY - rect.top;
+		});
+
+		document.addEventListener("mousemove", (e: MouseEvent) =>{
+			if (!isDragging) return;
+			popup.style.left = `${e.clientX - offsetX}px`;
+			popup.style.top = `${e.clientY - offsetY}px`;
+		});
+
+		document.addEventListener("mouseup", (e: MouseEvent) =>{
+			isDragging = false;
+		});
+	}
+
+	function makeClosable(popup: HTMLElement){
+			const cancel = popup.querySelector<HTMLElement>(".popup-close");
+		
+		cancel?.addEventListener("click", (e: MouseEvent) => {
+			popup.classList.toggle("hidden");
+		});
+	}
+
+	//make all popups on the page draggable
+	const popups = document.querySelectorAll<HTMLElement>(".popup");
+	popups.forEach((popup) => {
+		makeDraggable(popup);
+		makeClosable(popup);
+	});
+
+  </script>
 </Layout>
