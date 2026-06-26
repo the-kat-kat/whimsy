@@ -89,9 +89,14 @@ import Popup from "../components/Popup.astro";
   <Popup
     id="open-surprise"
     background="/assets/open-surprise.png"
-    classAdd="top-[57vh] left-[22vw] scale-[0.9] -translate-x-1/2 scale-[0.9] -translate-y-1/2"
+    classAdd="top-[57vh] left-[22vw] -translate-x-1/2 scale-[0.9] -translate-y-1/2"
   />
   <!--end of box -->
+  <Popup
+    id="open-ideas"
+    background="/assets/open-ideas.png"
+    classAdd="top-[70vh] right-[-28vw]  -translate-x-1/2 scale-[0.6] -translate-y-1/2"
+  />
   <!--YOU NEED TO DRAW ideasss!!!!!!!!!!!-->
 
   <script>
@@ -111,6 +116,7 @@ import Popup from "../components/Popup.astro";
     const openKeycap = document.getElementById("open-keycap") as HTMLElement;
     const openStickers= document.getElementById("open-stickers") as HTMLElement;
     const openSurprise = document.getElementById("open-surprise") as HTMLElement;
+    const openIdeas = document.getElementById("open-ideas") as HTMLElement;
 
     const bgMusic = document.getElementById("bg-music") as HTMLAudioElement;
     const clickSFX = document.getElementById("click") as HTMLAudioElement;
@@ -171,6 +177,7 @@ import Popup from "../components/Popup.astro";
     makeClickable(submissions, [openSubmissions]);
     makeClickable(faq, [openFAQ]);
     makeClickable(box, [openFigurine, openKeycap, openStickers, openSurprise]);
+    makeClickable(ideas, [openIdeas]);
 
     frog?.addEventListener("click", () => {
       clickSFX.play();
