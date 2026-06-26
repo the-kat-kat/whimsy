@@ -6,6 +6,7 @@ import Popup from "../components/Popup.astro";
 <Layout>
   <audio id="bg-music" src="/assets/music/curious-creatures.mp3" loop></audio>
   <audio id="click" src="/assets/music/mouse-click.mp3"></audio>
+  <audio id="miau" src="/assets/music/miau.mp3"></audio>
   <div class="mx-32">
     <img
       id="submissions"
@@ -27,23 +28,55 @@ import Popup from "../components/Popup.astro";
       src="assets/box-1.png"
       class="justify-center fixed bottom-120 left-100 transition-all hover:scale-[1.05]"
     />
-    <img
-      id="frog"
-      src="assets/frog-1.png"
-      class="justify-center justify-self-center top-100 fixed transition-all hover:scale-[1.05]"
-    />
+    <a
+      href="https://www.discovermagazine.com/meet-10-of-the-worlds-most-adorable-frogs-44995"
+      class="justify-center top-100 left-200 fixed transition-all hover:scale-[1.05]"
+    >
+      <img
+        id="frog"
+        src="assets/frog-1.png"
+      />
+    </a>
   </div>
 
   <Popup
     id="open-submissions"
     background="assets/open-submissions.png"
-    classAdd="top-1/8 left-1/16"
+    classAdd="top-35 left-1/16"
   />
   <Popup
     id="open-faq"
     background="assets/open-faq.png"
     classAdd="top-35 right-1/16"
   />
+  <!--box-->
+  <Popup
+    id="open-figurine"
+    background="assets/open-figurine.png"
+    classAdd="top-5 left-123"
+  />
+  <Popup
+    id="open-keycap"
+    background="assets/open-keycap.png"
+    classAdd="top-40 left-40"
+  />
+  <Popup
+    id="open-stickers"
+    background="assets/open-stickers.png"
+    classAdd="-top-5 left-70"
+  />
+  <Popup
+    id="open-surprise"
+    background="assets/open-surprise.png"
+    classAdd="top-90 left-63"
+  />
+  <!--end of box -->
+  <Popup
+    id="open-ideas"
+    background="assets/open-ideas.png"
+    classAdd="top-35 right-1/16"
+  />
+  <!--YOU NEED TO DRAW THIS!!!!!!!!!!!-->
 
   <script>
     const submissions = document.getElementById(
@@ -59,10 +92,14 @@ import Popup from "../components/Popup.astro";
     ) as HTMLElement;
     const openFAQ = document.getElementById("open-faq") as HTMLElement;
     const openIdeas = document.getElementById("open-ideas") as HTMLElement;
-    const openBox = document.getElementById("open-box") as HTMLElement;
+    const openFigurine = document.getElementById("open-figurine") as HTMLElement;
+    const openKeycap = document.getElementById("open-keycap") as HTMLElement;
+    const openStickers= document.getElementById("open-stickers") as HTMLElement;
+    const openSurprise = document.getElementById("open-surprise") as HTMLElement;
 
     const bgMusic = document.getElementById("bg-music") as HTMLAudioElement;
     const clickSFX = document.getElementById("click") as HTMLAudioElement;
+    const miauSFX = document.getElementById("miau") as HTMLAudioElement;
     let musicStarted = false;
 
     const bgPath1 = "url(assets/whimsy-bg-1.png)";
@@ -73,11 +110,9 @@ import Popup from "../components/Popup.astro";
     document.addEventListener("click", () => {
       if (!musicStarted) {
         musicStarted = true;
+        bgMusic.volume = 0.1;
+        bgMusic.play();
       }
-    });
-
-    submissions?.addEventListener("click", () => {
-      openSubmissions?.classList.toggle("hidden");
     });
 
     //hover animations
@@ -88,6 +123,8 @@ import Popup from "../components/Popup.astro";
     ) {
       element?.addEventListener("mouseenter", () => {
         element.src = image2;
+        miauSFX.pause();
+        miauSFX.play();
       });
       element?.addEventListener("mouseleave", () => {
         element.src = image1;
@@ -99,27 +136,30 @@ import Popup from "../components/Popup.astro";
       "assets/submissions-1.png",
       "assets/submissions-2.png",
     );
+
     makeHoverable(faq, "assets/faq-1.png", "assets/faq-2.png");
     makeHoverable(ideas, "assets/ideas-1.png", "assets/ideas-2.png");
     makeHoverable(box, "assets/box-1.png", "assets/box-2.png");
     makeHoverable(frog, "assets/frog-1.png", "assets/frog-2.png");
 
     //make click popup
-    function makeClickable(element: HTMLImageElement, popup: HTMLElement) {
+    function makeClickable(element: HTMLImageElement, popups: HTMLElement[]) {
       element?.addEventListener("click", () => {
-        popup?.classList.toggle("hidden")
         clickSFX.play();
+        popups.forEach((popup) => {
+          popup?.classList.toggle("hidden");
+        });
       });
     }
 
-    makeClickable(submissions, openSubmissions);
-    makeClickable(faq, openFAQ);
-    makeClickable(ideas, openIdeas);
-    makeClickable(box, openBox);
+    makeClickable(submissions, [openSubmissions]);
+    makeClickable(faq, [openFAQ]);
+    makeClickable(ideas, [openIdeas]);
+    makeClickable(box, [openFigurine, openKeycap, openStickers, openSurprise]);
 
     frog?.addEventListener("click", () => {
       clickSFX.play();
-    })
+    });
 
     setInterval(() => {
       count += 1;
