@@ -4,61 +4,73 @@ import Popup from "../components/Popup.astro";
 ---
 
 <Layout>
-  <div class="mx-32">
-	<h1 class="text-3xl justify-self-center m-8 py-32">Whimsy</h1>
-	<button id="popup-button-1" class="justify-center">Popup 1</button>
-  </div>
+  <audio id="bg-music" src="/assets/music/curious-creatures.mp3" loop></audio>
+   <div class="mx-32">
+    <h1 class="text-3xl justify-self-center m-8 py-32">11:11</h1>
+    <h2 class="text-xl justify-self-center">it's whimsy o'clock!</h2>
+    <button id="popup-button-1" class="justify-center">
+      <img src="assets/yt-icon.png" class="w-20 h-20"/>
+    </button>
+   </div>
 
-  <Popup id="popup-1" title="faq">
-	<p> answer questions ok</p>
+  <Popup id="popup-1" title="faq" background="assets/yt-icon.png">
+    <p>answer questions ok</p>
   </Popup>
   <script>
-	const popupButton1 = document.getElementById("popup-button-1");
-	const popup1 = document.getElementById("popup-1");
+    const popupButton1 = document.getElementById("popup-button-1");
+    const popup1 = document.getElementById("popup-1");
+	const bgMusic = document.getElementById("bg-music") as HTMLAudioElement;
 
+	let musicStarted = false
 
-	popupButton1?.addEventListener("click", () =>{
-		popup1?.classList.toggle("hidden");
+	document.addEventListener("click", () =>{
+		if (!musicStarted){
+			bgMusic.play();
+			musicStarted = true;
+		}
 	});
 
-	function makeDraggable(popup: HTMLElement){
-		const handle = popup.querySelector<HTMLElement>(".popup-handle");
-		let isDragging = false;
-		let offsetX = 0;
-		let offsetY = 0;
+    popupButton1?.addEventListener("click", () => {
+      popup1?.classList.toggle("hidden");
+    });
 
-		handle?.addEventListener("mousedown", (e: MouseEvent) =>{
-			isDragging = true
-			const rect = popup.getBoundingClientRect();
-			offsetX = e.clientX - rect.left;
-			offsetY = e.clientY - rect.top;
-		});
+    function makeDraggable(popup: HTMLElement) {
+      const handle = popup.querySelector<HTMLElement>(".popup-handle");
+      let isDragging = false;
+      let offsetX = 0;
+      let offsetY = 0;
 
-		document.addEventListener("mousemove", (e: MouseEvent) =>{
-			if (!isDragging) return;
-			popup.style.left = `${e.clientX - offsetX}px`;
-			popup.style.top = `${e.clientY - offsetY}px`;
-		});
+      handle?.addEventListener("mousedown", (e: MouseEvent) => {
+        isDragging = true;
+        const rect = popup.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+      });
 
-		document.addEventListener("mouseup", (e: MouseEvent) =>{
-			isDragging = false;
-		});
-	}
+      document.addEventListener("mousemove", (e: MouseEvent) => {
+        if (!isDragging) return;
+        popup.style.left = `${e.clientX - offsetX}px`;
+        popup.style.top = `${e.clientY - offsetY}px`;
+      });
 
-	function makeClosable(popup: HTMLElement){
-			const cancel = popup.querySelector<HTMLElement>(".popup-close");
-		
-		cancel?.addEventListener("click", (e: MouseEvent) => {
-			popup.classList.toggle("hidden");
-		});
-	}
+      document.addEventListener("mouseup", (e: MouseEvent) => {
+        isDragging = false;
+      });
+    }
 
-	//make all popups on the page draggable
-	const popups = document.querySelectorAll<HTMLElement>(".popup");
-	popups.forEach((popup) => {
-		makeDraggable(popup);
-		makeClosable(popup);
-	});
+    function makeClosable(popup: HTMLElement) {
+      const cancel = popup.querySelector<HTMLElement>(".popup-close");
 
+      cancel?.addEventListener("click", (e: MouseEvent) => {
+        popup.classList.toggle("hidden");
+      });
+    }
+
+    //make all popups on the page draggable
+    const popups = document.querySelectorAll<HTMLElement>(".popup");
+    popups.forEach((popup) => {
+      makeDraggable(popup);
+      makeClosable(popup);
+    });
   </script>
 </Layout>
