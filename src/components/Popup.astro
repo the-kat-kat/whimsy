@@ -1,5 +1,5 @@
 ---
-const {id, background, position} = Astro.props;
+const {id, background, classAdd} = Astro.props;
 ---
 
-<img id={id} src={background} class={`popup fixed z-50 ${position}`} />
+<img id={id} src={background} class={`popup hidden fixed z-50 ${classAdd}`} />

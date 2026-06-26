@@ -5,31 +5,73 @@ import Popup from "../components/Popup.astro";
 
 <Layout>
   <audio id="bg-music" src="/assets/music/curious-creatures.mp3" loop></audio>
+  <audio id="click" src="/assets/music/mouse-click.mp3"></audio>
   <div class="mx-32">
-    <img id="submissions" src="assets/submissions-1.png" class="justify-center fixed top-100 left-100 transition-all hover:scale-[1.05]"/>
+    <img
+      id="submissions"
+      src="assets/submissions-1.png"
+      class="justify-center fixed top-100 left-120 transition-all hover:scale-[1.05]"
+    />
+    <img
+      id="faq"
+      src="assets/faq-1.png"
+      class="justify-center fixed bottom-120 right-100 transition-all hover:scale-[1.05]"
+    />
+    <img
+      id="ideas"
+      src="assets/ideas-1.png"
+      class="justify-center fixed top-100 right-120 transition-all hover:scale-[1.05]"
+    />
+    <img
+      id="box"
+      src="assets/box-1.png"
+      class="justify-center fixed bottom-120 left-100 transition-all hover:scale-[1.05]"
+    />
+    <img
+      id="frog"
+      src="assets/frog-1.png"
+      class="justify-center justify-self-center top-100 fixed transition-all hover:scale-[1.05]"
+    />
   </div>
 
-  <Popup id="open-submissions" background="assets/open-submissions.png" position="top-1/16">
-  </Popup>
+  <Popup
+    id="open-submissions"
+    background="assets/open-submissions.png"
+    classAdd="top-1/8 left-1/16"
+  />
+  <Popup
+    id="open-faq"
+    background="assets/open-faq.png"
+    classAdd="top-35 right-1/16"
+  />
+
   <script>
-    const submissions = document.getElementById("submissions") as HTMLImageElement;
-    const openSubmissions = document.getElementById("open-submissions");
-    
+    const submissions = document.getElementById(
+      "submissions",
+    ) as HTMLImageElement;
+    const faq = document.getElementById("faq") as HTMLImageElement;
+    const ideas = document.getElementById("ideas") as HTMLImageElement;
+    const box = document.getElementById("box") as HTMLImageElement;
+    const frog = document.getElementById("frog") as HTMLImageElement;
+
+    const openSubmissions = document.getElementById(
+      "open-submissions",
+    ) as HTMLElement;
+    const openFAQ = document.getElementById("open-faq") as HTMLElement;
+    const openIdeas = document.getElementById("open-ideas") as HTMLElement;
+    const openBox = document.getElementById("open-box") as HTMLElement;
+
     const bgMusic = document.getElementById("bg-music") as HTMLAudioElement;
+    const clickSFX = document.getElementById("click") as HTMLAudioElement;
     let musicStarted = false;
 
     const bgPath1 = "url(assets/whimsy-bg-1.png)";
     const bgPath2 = "url(assets/whimsy-bg-2.png)";
     let count = 1;
 
-    let boxOpen = false;
-    let submissionOpen = false;
-    let ideasOpen = false;
-    let faqOpen = false;
-
+    //start bg music
     document.addEventListener("click", () => {
       if (!musicStarted) {
-        bgMusic.play();
         musicStarted = true;
       }
     });
@@ -38,12 +80,45 @@ import Popup from "../components/Popup.astro";
       openSubmissions?.classList.toggle("hidden");
     });
 
-    submissions?.addEventListener("mouseenter", () => {
-      submissions.src = "assets/submissions-2.png";
-    })
+    //hover animations
+    function makeHoverable(
+      element: HTMLImageElement,
+      image1: string,
+      image2: string,
+    ) {
+      element?.addEventListener("mouseenter", () => {
+        element.src = image2;
+      });
+      element?.addEventListener("mouseleave", () => {
+        element.src = image1;
+      });
+    }
 
-    submissions?.addEventListener("mouseleave", () => {
-      submissions.src = "assets/submissions-1.png";
+    makeHoverable(
+      submissions,
+      "assets/submissions-1.png",
+      "assets/submissions-2.png",
+    );
+    makeHoverable(faq, "assets/faq-1.png", "assets/faq-2.png");
+    makeHoverable(ideas, "assets/ideas-1.png", "assets/ideas-2.png");
+    makeHoverable(box, "assets/box-1.png", "assets/box-2.png");
+    makeHoverable(frog, "assets/frog-1.png", "assets/frog-2.png");
+
+    //make click popup
+    function makeClickable(element: HTMLImageElement, popup: HTMLElement) {
+      element?.addEventListener("click", () => {
+        popup?.classList.toggle("hidden")
+        clickSFX.play();
+      });
+    }
+
+    makeClickable(submissions, openSubmissions);
+    makeClickable(faq, openFAQ);
+    makeClickable(ideas, openIdeas);
+    makeClickable(box, openBox);
+
+    frog?.addEventListener("click", () => {
+      clickSFX.play();
     })
 
     setInterval(() => {
@@ -51,8 +126,7 @@ import Popup from "../components/Popup.astro";
       count %= 2;
       if (count == 0) {
         document.body.style.backgroundImage = bgPath1;
-      }
-      else {
+      } else {
         document.body.style.backgroundImage = bgPath2;
       }
     }, 500);
