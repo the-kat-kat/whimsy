@@ -5,13 +5,11 @@ import Popup from "../components/Popup.astro";
 
 <Layout>
   <audio id="bg-music" src="/assets/music/curious-creatures.mp3" loop></audio>
-   <div class="mx-32">
-    <h1 class="text-3xl justify-self-center m-8 py-32">11:11</h1>
-    <h2 class="text-xl justify-self-center">it's whimsy o'clock!</h2>
+  <div class="mx-32">
     <button id="popup-button-1" class="justify-center">
-      <img src="assets/yt-icon.png" class="w-20 h-20"/>
+      <img src="assets/yt-icon.png" class="w-20 h-20" />
     </button>
-   </div>
+  </div>
 
   <Popup id="popup-1" title="faq" background="assets/yt-icon.png">
     <p>answer questions ok</p>
@@ -19,20 +17,35 @@ import Popup from "../components/Popup.astro";
   <script>
     const popupButton1 = document.getElementById("popup-button-1");
     const popup1 = document.getElementById("popup-1");
-	const bgMusic = document.getElementById("bg-music") as HTMLAudioElement;
+    const bgMusic = document.getElementById("bg-music") as HTMLAudioElement;
 
-	let musicStarted = false
+    let musicStarted = false;
 
-	document.addEventListener("click", () =>{
-		if (!musicStarted){
-			bgMusic.play();
-			musicStarted = true;
-		}
-	});
+    let bgPath1 = "url(assets/whimsy-bg-1.png)";
+    let bgPath2 = "url(assets/whimsy-bg-2.png)";
+    let count = 1;
+
+    document.addEventListener("click", () => {
+      if (!musicStarted) {
+        bgMusic.play();
+        musicStarted = true;
+      }
+    });
 
     popupButton1?.addEventListener("click", () => {
       popup1?.classList.toggle("hidden");
     });
+
+    setInterval(() => {
+      count += 1;
+      count %= 2;
+      if (count == 0) {
+        document.body.style.backgroundImage = bgPath1;
+      }
+      else {
+        document.body.style.backgroundImage = bgPath2;
+      }
+    }, 500);
 
     function makeDraggable(popup: HTMLElement) {
       const handle = popup.querySelector<HTMLElement>(".popup-handle");
