@@ -11,30 +11,31 @@ import Popup from "../components/Popup.astro";
     <img
       id="submissions"
       src="/assets/submissions-1.png"
-      class="justify-center fixed top-100 left-120 transition-all hover:scale-[1.05]"
+      class="justify-center fixed top-[40vh] left-[28vw] transition-all scale-[0.8] hover:scale-[1.00]"
     />
     <img
       id="faq"
       src="/assets/faq-1.png"
-      class="justify-center fixed bottom-120 right-100 transition-all hover:scale-[1.05]"
+      class="justify-center fixed top-[20vh] right-[20vw] transition-all scale-[0.8] hover:scale-[1.00]"
     />
     <img
       id="ideas"
       src="/assets/ideas-1.png"
-      class="justify-center fixed top-100 right-120 transition-all hover:scale-[1.05]"
+      class="justify-center fixed top-[40vh] right-[28vw] transition-all scale-[0.8] hover:scale-[1.00]"
     />
     <img
       id="box"
       src="/assets/box-1.png"
-      class="justify-center fixed bottom-120 left-100 transition-all hover:scale-[1.05]"
+      class="justify-center fixed top-[20vh] left-[20vw] transition-all scale-[0.8] hover:scale-[1.00]"
     />
     <a
       href="https://www.discovermagazine.com/meet-10-of-the-worlds-most-adorable-frogs-44995"
-      class="justify-center top-100 left-200 fixed transition-all hover:scale-[1.05]"
+      class="justify-center top-[55vh] left-[50vw] -translate-x-1/2 -translate-y-1/2 fixed transition-all scale-[0.9] hover:scale-[1.00]"
     >
       <img
         id="frog"
         src="/assets/frog-1.png"
+        class="justify-self-center"
       />
     </a>
   </div>
@@ -42,33 +43,33 @@ import Popup from "../components/Popup.astro";
   <Popup
     id="open-submissions"
     background="/assets/open-submissions.png"
-    classAdd="top-35 left-5"
+    classAdd="top-[50vh] left-[25vh] -translate-x-1/2 -translate-y-1/2"
   />
   <Popup
     id="open-faq"
     background="/assets/open-faq.png"
-    classAdd="top-35 right-5"
+    classAdd="top-[50vh] -right-[18vh] -translate-x-1/2 -translate-y-1/2"
   />
   <!--box-->
   <Popup
     id="open-figurine"
     background="/assets/open-figurine.png"
-    classAdd="top-5 left-123"
+    classAdd="top-[18vh] left-[37vw] scale-[0.9] -translate-x-1/2 -translate-y-1/2"
   />
   <Popup
     id="open-keycap"
     background="/assets/open-keycap.png"
-    classAdd="top-40 left-40"
+    classAdd="top-[35vh] left-[15vw] scale-[0.9] -translate-x-1/2 -translate-y-1/2"
   />
   <Popup
     id="open-stickers"
     background="/assets/open-stickers.png"
-    classAdd="-top-5 left-70"
+    classAdd="top-[15vh] left-[23.5vw] scale-[0.9] -translate-x-1/2  -translate-y-1/2"
   />
   <Popup
     id="open-surprise"
     background="/assets/open-surprise.png"
-    classAdd="top-90 left-63"
+    classAdd="top-[57vh] left-[22vw] scale-[0.9] -translate-x-1/2 scale-[0.9] -translate-y-1/2"
   />
   <!--end of box -->
   <!--YOU NEED TO DRAW ideasss!!!!!!!!!!!-->
@@ -173,8 +174,8 @@ import Popup from "../components/Popup.astro";
         e.preventDefault();
         isDragging = true;
         const rect = popup.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
+        offsetX = e.clientX - rect.left*0.5 - rect.right*0.5;
+        offsetY = e.clientY - rect.top*0.5 - rect.bottom*0.5;
       });
 
       document.addEventListener("mousemove", (e: MouseEvent) => {
