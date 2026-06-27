@@ -1,8 +1,8 @@
 ---
 import "../styles/global.css";
 const {
-  title,
-  description = "whimsy",
+  title = "whimsy",
+  description = "a very whimsy ysws",
   image = "/assets/whimsy-thumbnail.png",
 } = Astro.props;
 const imageUrl = new URL(image, Astro.site ?? Astro.url.origin).toString();
